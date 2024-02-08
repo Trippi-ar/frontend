@@ -26,5 +26,6 @@ replay_pid*
 .idea/
 .next/
 
-node_module/
+.next
 
+node_modules
