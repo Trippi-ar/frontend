@@ -3,10 +3,23 @@ import Image from 'next/image';
 import { UserCircleIcon, ShoppingCartIcon, SearchIcon, AdjustmentsIcon } from '@heroicons/react/solid';
 import Link from "next/link";
 import { getCartCookie } from '@/utils/cookiesUtils';
+import { useRouter } from 'next/navigation';
+
 
 const Navbar = ({ isSticky }: { isSticky: boolean }) => {
     const [openMenu, setOpenMenu] = useState(false);
     const [cartItemCount, setCartItemCount] = useState(0);
+    const router = useRouter();
+    const [where, setWhere] = useState('');
+    const [when, setWhen] = useState('');
+    const [howMany, setHowMany] = useState('');
+
+    const handleSearchClick = () => {
+        localStorage.setItem('searchWhere', where);
+        localStorage.setItem('searchWhen', when);
+        localStorage.setItem('searchHowMany', howMany);
+        router.push(`/activities`);
+    };
 
     useEffect(() => {
         const cart = getCartCookie();
@@ -29,27 +42,38 @@ const Navbar = ({ isSticky }: { isSticky: boolean }) => {
             </div>
 
             <div className="flex border rounded-3xl shadow-xl p-2 w-1/2" >
-                <form className="flex items-center space-x-4 w-full">
+            <form className="flex items-center space-x-4 w-full">
                     <input
                         type="text"
                         placeholder="Where"
-                        className="w-1/4 py-2 ml-10 text-xs border-none focus:outline-none border-r-2 border-green-400 w-2/4" />
+                        value={where}
+                        onChange={(e) => setWhere(e.target.value)}
+                        className="w-1/4 py-2 ml-10 text-xs border-none focus:outline-none border-r-2 border-green-400 w-2/4"
+                    />
                     <input
                         type="date"
                         placeholder="When"
-                        className="w-1/4 py-2 ml-10 text-xs border-none focus:outline-none border-r-2 border-green-400 pr-1 w-1/4" />
+                        value={when}
+                        onChange={(e) => setWhen(e.target.value)}
+                        className="w-1/4 py-2 ml-10 text-xs border-none focus:outline-none border-r-2 border-green-400 pr-1 w-1/4"
+                    />
                     <input
                         type="number"
                         min="1"
                         max="50"
                         placeholder="How many"
-                        className="w-1/4 py-2 ml-10 text-xs border-none focus:outline-none border-r-2 border-black w-1/4" 
+                        value={howMany}
+                        onChange={(e) => setHowMany(e.target.value)}
+                        className="w-1/4 py-2 ml-10 text-xs border-none focus:outline-none border-r-2 border-black w-1/4"
                         inputMode="numeric"
                     />
                 </form>
                 <div className="flex items-center ml-2">
-                    <div className="rounded-full p-2 bg-green-400">
-                        <SearchIcon className="h-6 text-white"/>
+                    <div
+                        onClick={handleSearchClick}
+                        className="rounded-full p-2 bg-green-400 cursor-pointer"
+                    >
+                        <SearchIcon className="h-6 text-white" />
                     </div>
                 </div>
             </div>
@@ -83,6 +107,10 @@ const Navbar = ({ isSticky }: { isSticky: boolean }) => {
                             <Link href="/signup">
                                 <p className="block px-4 py-2 text-sm text-gray-800 hover:bg-green-400 hover:text-white cursor-pointer">I am a guide</p>
                             </Link>
+                            <Link href="/signup">
+                                <p className="block px-4 py-2 text-sm text-gray-800 hover:bg-green-400 hover:text-white cursor-pointer">Log out</p>
+                            </Link>
+                            
                         </div>
                     )}
                 </div>
