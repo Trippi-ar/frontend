@@ -12,7 +12,7 @@ const Home = () => {
 
     return (
         <div className="antialiased tracking-wider mx-auto" style={{ maxWidth: '1400px' , minWidth: '1024px'}}>
-            <Navbar isSticky={true} cartItemCount={1} />
+            <Navbar isSticky={true} />
             <ListOfActivities />
             <Footer />
         </div>

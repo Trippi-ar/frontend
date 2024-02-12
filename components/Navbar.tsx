@@ -4,7 +4,7 @@ import { UserCircleIcon, ShoppingCartIcon, SearchIcon, AdjustmentsIcon } from '@
 import Link from "next/link";
 import { getCartCookie } from '@/utils/cookiesUtils';
 
-const Navbar = ({ isSticky }) => {
+const Navbar = ({ isSticky }: { isSticky: boolean }) => {
     const [openMenu, setOpenMenu] = useState(false);
     const [cartItemCount, setCartItemCount] = useState(0);
 
@@ -15,7 +15,7 @@ const Navbar = ({ isSticky }) => {
         }
     }, []);
 
-    const handleMenuClick = (event) => {
+    const handleMenuClick = (event: React.MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
         setOpenMenu(!openMenu);
     };

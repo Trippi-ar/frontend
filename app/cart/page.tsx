@@ -92,9 +92,10 @@ function Cart() {
         }
     };
 
+    // @ts-ignore
     return (
         <div className="antialiased tracking-wider mx-auto" style={{maxWidth: '1400px', minWidth: '1024px'}}>
-        <Navbar isSticky={false} cartItemCount={cartItems.length}/>
+        <Navbar isSticky={false} />
             <div className="container mx-auto px-4">
                 <h2 className="text-2xl font-bold mb-4">Cart Items</h2>
                 <div className="grid grid-cols-1 gap-4">

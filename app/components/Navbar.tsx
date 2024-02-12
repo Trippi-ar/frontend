@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { UserCircleIcon, LocationMarkerIcon } from '@heroicons/react/solid';
-import { SearchIcon, AdjustmentsIcon } from '@heroicons/react/solid';
+import { UserCircleIcon, LocationMarkerIcon, SearchIcon, AdjustmentsIcon } from '@heroicons/react/solid';
 import Link from "next/link";
 
-
-
 const Navbar = () => {
-    const [openMenu, setOpenMenu] = useState(null);
+    const [openMenu, setOpenMenu] = useState<boolean | null>(null);
 
-    const handleMenuClick = (event) => {
+    const handleMenuClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.preventDefault();
-        setOpenMenu(!openMenu);
+        setOpenMenu(prevState => !prevState);
     };
 
     return (

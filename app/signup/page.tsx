@@ -4,23 +4,76 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+interface FormData {
+    username: string;
+    email: string;
+    password: string;
+    user_type: string | null;
+}
+
+interface FormFieldProps {
+    label: string;
+    name: string;
+    type: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const FormField: React.FC<FormFieldProps> = ({ label, name, type, value, onChange }) => {
+    return (
+        <label className="block">
+            <span className="text-gray-700">{label}</span>
+            <input
+                type={type}
+                name={name}
+                value={value}
+                onChange={onChange}
+                className="block w-full mt-2 rounded-md shadow-sm focus:ring-0 focus:border-gray-300 outline-none sm:text-sm"
+            />
+        </label>
+    );
+};
+
+interface RadioInputProps {
+    name: string;
+    value: string;
+    checked: boolean;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const RadioInput: React.FC<RadioInputProps> = ({ name, value, checked, onChange }) => {
+    return (
+        <label className="flex items-center">
+            <input
+                type="radio"
+                name={name}
+                value={value}
+                checked={checked}
+                onChange={onChange}
+                className="form-radio"
+            />
+            <span className="ml-2">{/* Eliminamos 'children' ya que no está definido en RadioInputProps */}</span>
+        </label>
+    );
+};
+
 export default function SignUp() {
     const router = useRouter();
     const API_SIGNUP_URL = "http://localhost:8001/api/signup";
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         username: '',
         email: '',
         password: '',
         user_type: null
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         // Validation
@@ -74,7 +127,7 @@ export default function SignUp() {
                     </div>
                     <h1 className="flex justify-center text-2xl font-bold text-left pb-3 pl-2">Create an account</h1>
                     <p className="flex justify-center">
-                         Already a member? 
+                        Already a member?
                         <a href="/login" className="font-bold  hover:text-green-400 pl-1"> Login</a>
                     </p>
                     <form onSubmit={handleSubmit} className="space-y-4 pt-1">
@@ -82,8 +135,8 @@ export default function SignUp() {
                         <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} />
                         <FormField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} />
                         <div className="flex justify-center space-x-4 pt-4">
-                            <RadioInput name="user_type" value="client" checked={formData.user_type === 'client'} onChange={handleChange}>Client</RadioInput>
-                            <RadioInput name="user_type" value="guide" checked={formData.user_type === 'guide'} onChange={handleChange}>Guide</RadioInput>
+                            <RadioInput name="user_type" value="client" checked={formData.user_type === 'client'} onChange={handleChange} />
+                            <RadioInput name="user_type" value="guide" checked={formData.user_type === 'guide'} onChange={handleChange} />
                         </div>
                         <div className="flex justify-center space-x-4 pt-4">
                             <button type="submit" className="w-1/2 px-3 py-2 text-white bg-green-400 rounded-2xl hover:bg-green-500">Sign Up</button>
@@ -95,34 +148,3 @@ export default function SignUp() {
 
     );
 }
-
-const FormField = ({ label, name, type, value, onChange }) => {
-    return (
-        <label className="block">
-            <span className="text-gray-700">{label}</span>
-            <input
-                type={type}
-                name={name}
-                value={value}
-                onChange={onChange}
-                className="block w-full mt-2 rounded-md shadow-sm focus:ring-0 focus:border-gray-300 outline-none sm:text-sm"
-            />
-        </label>
-    );
-};
-
-const RadioInput = ({ name, value, checked, onChange, children }) => {
-    return (
-        <label className="flex items-center">
-            <input
-                type="radio"
-                name={name}
-                value={value}
-                checked={checked}
-                onChange={onChange}
-                className="form-radio"
-            />
-            <span className="ml-2">{children}</span>
-        </label>
-    );
-};

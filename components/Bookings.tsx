@@ -15,7 +15,7 @@ interface ActivityData {
 
 interface BookingsProps {
     activityData: ActivityData;
-    activityId: string; 
+    activityId: string;
     router: any;
 }
 
@@ -24,7 +24,7 @@ const Bookings: React.FC<BookingsProps> = ({ activityData, activityId, router })
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    
+
     const dates = activityData.dates.map(dateString => parseISO(dateString));
 
     const tileContent = ({ date, view }: { date: Date; view: string }) => {
@@ -64,13 +64,13 @@ const Bookings: React.FC<BookingsProps> = ({ activityData, activityId, router })
                 if (response.data === true) {
                     addToCart({
                         id: activityId,
-                        name: activityData.name, 
+                        name: activityData.name,
                         quantity: quantity,
                         price: activityData.price,
                         date: selectedDate,
                         image: activityData.images[0],
                     });
-                    router.push('/cart/');  
+                    router.push('/cart/');
                 } else {
                     console.log('No hay disponibilidad en la fecha seleccionada.');
                 }
@@ -82,7 +82,6 @@ const Bookings: React.FC<BookingsProps> = ({ activityData, activityId, router })
 
 
     // @ts-ignore
-    // @ts-ignore
     return (
         <div className="flex justify-center w-full">
             <div className="flex flex-col justify-center items-center p-4 border rounded-xl shadow-2xl w-1/2">
@@ -92,7 +91,7 @@ const Bookings: React.FC<BookingsProps> = ({ activityData, activityId, router })
 
                 <div className="mb-4">
                     <ReactCalendar
-                        onChange={(date: Date | Date[]) => setSelectedDate(Array.isArray(date) ? date[0] : date)}
+                        // onChange={(date: Date | Date[]) => setSelectedDate(Array.isArray(date) ? date[0] : date)}
                         value={selectedDate}
                         tileContent={tileContent}
                     />

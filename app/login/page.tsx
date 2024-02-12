@@ -6,17 +6,33 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { setCookie } from 'cookies-next';
 
+interface FormFieldProps {
+    label: string;
+    type: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
+const FormField: React.FC<FormFieldProps> = ({ label, type, value, onChange }) => {
+    return (
+        <label className="block">
+            <span className="text-gray-700">{label}</span>
+            <input
+                type={type}
+                value={value}
+                onChange={onChange}
+                className="block w-full mt-2 border-gray-300 rounded-md shadow-sm focus:ring-0 outline-none sm:text-sm"
+            />
+        </label>
+    );
+};
 
 export default function LoginPage() {
-
     const router = useRouter();
     const API_LOGIN_URL = "http://localhost:8001/api/login";
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,9 +49,9 @@ export default function LoginPage() {
                 setCookie(
                     'token',
                     data,
-                    { 
+                    {
                         // httpOnly: true,
-                        maxAge: 2 * 60 * 60, 
+                        maxAge: 2 * 60 * 60,
                         path: '/',
                     });
                 router.push('/home');
@@ -47,7 +63,6 @@ export default function LoginPage() {
             alert("Login failed");
         }
     };
-    
 
     return (
         <div className="antialiased tracking-wider mx-auto" style={{ maxWidth: '1400px' , minWidth: '1024px'}}>
@@ -68,20 +83,5 @@ export default function LoginPage() {
                 </div>
             </div>
         </div>
-
     );
 }
-
-const FormField = ({ label, type, value, onChange }) => {
-    return (
-        <label className="block">
-            <span className="text-gray-700">{label}</span>
-            <input
-                type={type}
-                value={value}
-                onChange={onChange}
-                className="block w-full mt-2 border-gray-300 rounded-md shadow-sm focus:ring-0 outline-none sm:text-sm"
-            />
-        </label>
-    );
-};
