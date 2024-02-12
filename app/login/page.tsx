@@ -29,7 +29,7 @@ const FormField: React.FC<FormFieldProps> = ({ label, type, value, onChange }) =
 
 export default function LoginPage() {
     const router = useRouter();
-    const API_LOGIN_URL = "http://localhost:8001/api/login";
+    const API_LOGIN_URL = "https://users-3bsgyuggyq-ue.a.run.app/api/login";
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

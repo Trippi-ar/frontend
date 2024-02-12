@@ -59,7 +59,7 @@ const RadioInput: React.FC<RadioInputProps> = ({ name, value, checked, onChange 
 
 export default function SignUp() {
     const router = useRouter();
-    const API_SIGNUP_URL = "http://localhost:8001/api/signup";
+    const API_SIGNUP_URL = "https://users-3bsgyuggyq-ue.a.run.app/api/signup";
 
     const [formData, setFormData] = useState<FormData>({
         username: '',

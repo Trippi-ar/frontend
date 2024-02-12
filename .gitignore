@@ -29,6 +29,3 @@ replay_pid*
 .next
 
 node_modules
-
-# Sentry Config File
-.sentryclirc

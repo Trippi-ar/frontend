@@ -34,7 +34,7 @@ function Cart() {
             updatedCart[index].quantity -= 1;
             setCartItems(updatedCart);
             calculateTotalPrice(updatedCart);
-            setCartCookie(updatedCart); // Actualizar la cookie
+            setCartCookie(updatedCart);
         }
     };
 
@@ -43,14 +43,14 @@ function Cart() {
         updatedCart[index].quantity += 1;
         setCartItems(updatedCart);
         calculateTotalPrice(updatedCart);
-        setCartCookie(updatedCart); // Actualizar la cookie
+        setCartCookie(updatedCart);
     };
 
     const handleRemoveFromCart = (index: number) => {
         const updatedCart = cartItems.filter((_, i) => i !== index);
         setCartItems(updatedCart);
         calculateTotalPrice(updatedCart);
-        setCartCookie(updatedCart); // Actualizar la cookie
+        setCartCookie(updatedCart);
         removeFromCart(cartItems[index].name); 
     };
 
@@ -72,7 +72,7 @@ function Cart() {
                 const formattedDate = format(new Date(item.date), 'yyyy-MM-dd');
 
 
-                const createBookingResponse = await axios.post('http://localhost:8003/api/booking/', {
+                const createBookingResponse = await axios.post('https://publications-3bsgyuggyq-ue.a.run.app/api/booking/', {
                     publication_id: item.id,
                     date: formattedDate,
                     participant: item.quantity,

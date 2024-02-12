@@ -18,7 +18,7 @@ function ActivityPage({ params }: { params: { activityId: string } }) {
     useEffect(() => {
         const fetchActivity = async (activityId: string) => {
             try {
-                const response = await axios.get(`http://localhost:8003/api/${activityId}`);
+                const response = await axios.get(`https://publications-3bsgyuggyq-ue.a.run.app/api/${activityId}`);
                 console.log(response.data);
                 setActivityData(response.data); // Almacena la respuesta como un objeto en el estado activityData
             } catch (error) {

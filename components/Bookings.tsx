@@ -3,7 +3,7 @@ import ReactCalendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { parseISO } from 'date-fns';
 import axios from "axios";
-import { addToCart } from '@/utils/cookiesUtils'; // Importa la función addToCart desde el archivo de utilidades de cookies
+import { addToCart } from '@/utils/cookiesUtils';
 
 
 interface ActivityData {
@@ -56,7 +56,7 @@ const Bookings: React.FC<BookingsProps> = ({ activityData, activityId, router })
         } else {
             setErrorMessage('');
             try {
-                const response = await axios.post('http://localhost:8003/api/booking/availability', {
+                const response = await axios.post('https://publications-3bsgyuggyq-ue.a.run.app/api/booking/availability', {
                     publication_id: activityId,
                     date: selectedDate.toISOString().split('T')[0],
                     participant: quantity,
