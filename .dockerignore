@@ -2,3 +2,5 @@
 .next
 node_module/
 node_modules
+.idea
+.idea/

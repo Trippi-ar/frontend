@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Navbar from '../../components/Navbar';
-import RelevantActivities from "@/components/RelevantActivities";
 import ListOfActivities from "../../components/ListOfActivities";
 import Footer from "../../components/Footer";
 
