@@ -1,0 +1,55 @@
+name: Production CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Generate Image Tag
+        id: tag
+        run: echo "::set-output name=tag::$(git log --pretty=format:'%h' -n 1)"
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t joaquinreyero12/frontend:${{ steps.tag.outputs.tag }} .
+          docker push joaquinreyero12/frontend:${{ steps.tag.outputs.tag }}
+
+      - name: Pull Docker image from Docker Hub
+        run: docker pull joaquinreyero12/frontend:${{ steps.tag.outputs.tag }}
+
+      - name: Authenticate with Google Cloud Platform
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          
+      - name: Tag Docker image for Google Container Registry
+        run: |
+          docker tag joaquinreyero12/frontend:${{ steps.tag.outputs.tag }} gcr.io/crested-primacy-413823/frontend:${{ steps.tag.outputs.tag }}
+
+      - name: Authenticate Docker to Google Container Registry
+        run: gcloud auth configure-docker
+
+      - name: Push Docker image to Google Container Registry
+        run: docker push gcr.io/crested-primacy-413823/frontend:${{ steps.tag.outputs.tag }}
+
+      - name: Deploy On Google Cloud
+        run: |
+          gcloud run deploy frontend \
+            --image gcr.io/crested-primacy-413823/frontend:${{ steps.tag.outputs.tag }} \
+            --platform managed \
+            --region us-east1 \
+            --allow-unauthenticated \
+            --project crested-primacy-413823 \
