@@ -30,3 +30,6 @@ replay_pid*
 .idea
 
 node_modules
+
+# Sentry Config File
+.sentryclirc
