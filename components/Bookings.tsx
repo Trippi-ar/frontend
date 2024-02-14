@@ -80,8 +80,6 @@ const Bookings: React.FC<BookingsProps> = ({ activityData, activityId, router })
         }
     };
 
-
-    // @ts-ignore
     return (
         <div className="flex justify-center w-full">
             <div className="flex flex-col justify-center items-center p-4 border rounded-xl shadow-2xl w-1/2">
@@ -91,7 +89,8 @@ const Bookings: React.FC<BookingsProps> = ({ activityData, activityId, router })
 
                 <div className="mb-4">
                     <ReactCalendar
-                        // onChange={(date: Date | Date[]) => setSelectedDate(Array.isArray(date) ? date[0] : date)}
+                        // @ts-ignore
+                        onChange={(date: Date | Date[]) => setSelectedDate(Array.isArray(date) ? date[0] : date)}
                         value={selectedDate}
                         tileContent={tileContent}
                     />

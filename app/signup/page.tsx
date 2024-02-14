@@ -52,7 +52,7 @@ const RadioInput: React.FC<RadioInputProps> = ({ name, value, checked, onChange 
                 onChange={onChange}
                 className="form-radio"
             />
-            <span className="ml-2">{/* Eliminamos 'children' ya que no está definido en RadioInputProps */}</span>
+            <span className="ml-2">{value === 'client' ? 'Client' : 'Guide'}</span>
         </label>
     );
 };
@@ -135,8 +135,18 @@ export default function SignUp() {
                         <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} />
                         <FormField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} />
                         <div className="flex justify-center space-x-4 pt-4">
-                            <RadioInput name="user_type" value="client" checked={formData.user_type === 'client'} onChange={handleChange} />
-                            <RadioInput name="user_type" value="guide" checked={formData.user_type === 'guide'} onChange={handleChange} />
+                            <RadioInput
+                                name="user_type"
+                                value="client"
+                                checked={formData.user_type === 'client'}
+                                onChange={handleChange}
+                            />
+                            <RadioInput
+                                name="user_type"
+                                value="guide"
+                                checked={formData.user_type === 'guide'}
+                                onChange={handleChange}
+                            />
                         </div>
                         <div className="flex justify-center space-x-4 pt-4">
                             <button type="submit" className="w-1/2 px-3 py-2 text-white bg-green-400 rounded-2xl hover:bg-green-500">Sign Up</button>
