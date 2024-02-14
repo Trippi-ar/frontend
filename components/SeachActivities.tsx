@@ -75,17 +75,45 @@ function PaginatedItems({ itemsPerPage }: PaginatedItemsProps) {
     const [activities, setActivities] = useState<Activity[]>([]);
     const [itemOffset, setItemOffset] = useState(0);
     const router = useRouter();
-    const searchWhere = typeof window !== 'undefined' ? localStorage.getItem('searchWhere') : '';
+
+    const where = typeof window !== 'undefined' ? localStorage.getItem('searchWhere') : '';
+    const when = typeof window !== 'undefined' ? localStorage.getItem('searchWhen') : '';
+    const howMany = typeof window !== 'undefined' ? localStorage.getItem('searchHowMany') : '';
+
 
 
     useEffect(() => {
-        const url = `https://publications-3bsgyuggyq-ue.a.run.app/api/?page=1&per_page=40&name=${searchWhere}`;
-        axios.get(url)
-            .then(response => {
+        const fetchActivities = async () => {
+            try {
+                const searchParams: any = {};
+                if (where?.trim() !== '') {
+                    searchParams['name'] = where;
+                    searchParams['address'] = where;
+                }
+                if (when?.trim() !== '') {
+                    searchParams['date'] = when;
+                }
+                if (howMany?.trim() !== '') {
+                    searchParams['available_spots'] = parseInt(howMany || '0');
+                }
+    
+                const response = await axios.post('https://publications-3bsgyuggyq-ue.a.run.app/api/search?page=1&per_page=10', searchParams, {
+                    headers: {
+                        'accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                });
+    
+                console.log(response.data);
                 setActivities(response.data);
-            })
-            .catch(error => console.error('Error fetching activities:', error));
-    }, [searchWhere]);
+            } catch (error) {
+                console.error('Error fetching activities:', error);
+            }
+        };
+    
+        fetchActivities();
+    }, [where, when, howMany]);
+    
 
     const endOffset = itemOffset + itemsPerPage;
     const currentItems = activities.slice(itemOffset, endOffset);

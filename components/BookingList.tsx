@@ -34,6 +34,32 @@ const BookingList: React.FC = () => {
     fetchBookings();
   }, []);
 
+  const handleCancelBooking = async (bookingId: string) => {
+    try {
+      const token = getCookie('token');
+      await axios.put(
+        `https://publications-3bsgyuggyq-ue.a.run.app/api/booking/${bookingId}`,
+        { state: 'cancelled' },
+        {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const updatedBookings = bookings.map((booking) => {
+        if (booking.id === bookingId) {
+          return { ...booking, state: 'cancelled' };
+        }
+        return booking;
+      });
+      setBookings(updatedBookings);
+    } catch (error) {
+      console.error('Error cancelling booking:', error);
+    }
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full">
@@ -47,7 +73,10 @@ const BookingList: React.FC = () => {
               <td className="px-4 py-2">{booking.participant}</td>
               <td className="px-4 py-2">{booking.created_at}</td>
               <td className="px-4 py-2">
-                <button className="ml-16 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                <button
+                  className="ml-16 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => handleCancelBooking(booking.id)}
+                >
                   Cancelar
                 </button>
               </td>

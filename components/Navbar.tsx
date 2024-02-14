@@ -32,6 +32,7 @@ const Navbar = ({ isSticky }: { isSticky: boolean }) => {
         setOpenMenu(!openMenu);
     };
 
+
     const handleLogout = async () => {
         try {
             const token = getCookie('token');
@@ -44,7 +45,7 @@ const Navbar = ({ isSticky }: { isSticky: boolean }) => {
             });
 
             if (response.ok) {
-                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                localStorage.removeItem('token');
                 router.push('/home'); 
             } else {
                 console.error('Error during logout:', response.statusText);
